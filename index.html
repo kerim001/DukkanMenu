@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     TASARIMCININ DEĞİŞKENLERİ & KARANLIK MOD
+     VARIABLES & DARK MODE (Tasarımcının Orijinal Kodları)
   ========================================================= */
   :root{
     --bg: #F2E7D2;
@@ -19,11 +19,11 @@
     --ink: #3B2A1D;
     --soft: #8B7452;
     --dotted: #C1A87B;
-    --tab-bg: rgba(242,231,210,0.92);
+    --tab-bg: rgba(242,231,210,0.98);
     --frame: 14px;
     
-    /* Yeni Kart Renkleri */
-    --card-bg: #FCFAF4;
+    /* Yeni Kart Arkaplanı */
+    --card-bg: rgba(255, 255, 255, 0.4); 
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -34,8 +34,8 @@
       --ink: #F1E4D2;
       --soft: #C6A480;
       --dotted: #6E5636;
-      --tab-bg: rgba(36,24,18,0.92);
-      --card-bg: #2A1D16;
+      --tab-bg: rgba(36,24,18,0.98);
+      --card-bg: rgba(0, 0, 0, 0.2);
     }
   }
   :root[data-theme="dark"]{
@@ -46,23 +46,30 @@
     --ink: #F1E4D2;
     --soft: #C6A480;
     --dotted: #6E5636;
-    --tab-bg: rgba(36,24,18,0.92);
-    --card-bg: #2A1D16;
+    --tab-bg: rgba(36,24,18,0.98);
+    --card-bg: rgba(0, 0, 0, 0.2);
   }
 
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;background:var(--bg);}
+  
+  html,body{
+    margin:0;
+    padding:0;
+    height:100%;
+    background:var(--bg);
+  }
+  
   body{
-    font-family:"Cormorant Garamond", "Cormorant", Georgia, serif;
+    font-family:"Cormorant Garamond", Georgia, serif;
     color:var(--ink);
     -webkit-tap-highlight-color:transparent;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Kaydırma işlemi içerik alanında olacak */
+    overflow: hidden; /* Sadece içerik alanının scroll edilmesini sağlar */
   }
 
   /* =========================================================
-     SABİT MEANDER ÇERÇEVESİ
+     FIXED MEANDER FRAME
   ========================================================= */
   .frame{position:fixed;inset:0;pointer-events:none;z-index:100;}
   .frame .edge{position:absolute;background-color:var(--bg);}
@@ -91,48 +98,49 @@
   }
 
   /* =========================================================
-     SABİT ÜST ALAN (HEADER & NAV)
+     SABİT ÜST ALAN (HEADER & NAVİGASYON)
   ========================================================= */
-  .header-wrapper {
-    position: relative;
-    z-index: 50;
+  .header-area {
+    flex-shrink: 0;
+    padding-top: calc(var(--frame) + 12px);
     background: var(--bg);
-    padding-top: calc(var(--frame) + 15px);
+    z-index: 50;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
   }
 
   .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 25px;
-    margin-bottom: 12px;
+    padding: 0 calc(var(--frame) + 12px);
+    margin-bottom: 14px;
   }
 
+  /* Hamburger Menü İkonu */
   .hamburger {
-    width: 24px; height: 16px;
+    width: 22px; height: 14px;
     display: flex; flex-direction: column; justify-content: space-between;
   }
-  .hamburger span { width: 100%; height: 2px; background: var(--brick); border-radius: 2px; }
+  .hamburger span { width: 100%; height: 2px; background: var(--brick); border-radius: 2px;}
   .hamburger span:nth-child(2) { width: 75%; }
 
+  /* Logo */
   .logo-box { text-align: center; }
-  .logo-box h1 { margin: 0; font-size: 38px; font-weight: 700; color: var(--brick); line-height: 1; letter-spacing: -0.5px; }
-  .logo-box p { margin: 2px 0 0; font-family: "Montserrat", sans-serif; font-size: 9px; letter-spacing: 0.15em; color: var(--soft); text-transform: uppercase; }
+  .logo-box h1 { margin: 0; font-size: 34px; font-weight: 700; color: var(--brick); line-height: 1; letter-spacing: -0.5px; }
+  .logo-box p { margin: 2px 0 0; font-family: "Montserrat", sans-serif; font-size: 8px; letter-spacing: 0.15em; color: var(--soft); text-transform: uppercase; }
 
-  .leaf-icon { width: 24px; height: 24px; fill: none; stroke: var(--brick); stroke-width: 1.5; }
+  /* Yaprak İkonu */
+  .leaf-icon { width: 22px; height: 22px; fill: none; stroke: var(--brick); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;}
 
-  /* Kategori Navigasyonu (Pill Tasarımı) */
+  /* Kategori Navigasyonu (Pill/Hap Görünümü) */
   .tabbar {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     overflow-x: auto;
-    padding: 10px 25px 15px;
-    scrollbar-width: none;
-    background: var(--tab-bg);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--dotted);
+    padding: 0 calc(var(--frame) + 12px) 14px;
+    scrollbar-width: none; /* Firefox */
   }
-  .tabbar::-webkit-scrollbar { display: none; }
+  .tabbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
   
   .tab {
     flex: 0 0 auto;
@@ -142,8 +150,8 @@
     font-weight: 500;
     color: var(--soft);
     background: transparent;
-    border: 1px solid transparent;
-    border-radius: 20px;
+    border: none;
+    border-radius: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -151,38 +159,39 @@
     background: var(--brick);
     color: var(--bg);
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(124, 46, 32, 0.25);
   }
 
   /* =========================================================
-     DİKEY İÇERİK ALANI
+     DİKEY KAYDIRILABİLİR İÇERİK ALANI
   ========================================================= */
   .content-area {
     flex: 1;
     overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px calc(var(--frame) + 10px) calc(var(--frame) + 40px);
+    padding: 20px calc(var(--frame) + 12px) calc(var(--frame) + 40px);
   }
 
   .category-section {
     display: none;
-    animation: fadeUp 0.4s ease;
+    animation: fadeIn 0.3s ease-out;
   }
   .category-section.active {
     display: block;
   }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(15px); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Kategori Başlığı ve Numaratör */
+  /* Kategori Başlığı ve Sayaç */
   .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--dotted);
     padding-bottom: 12px;
+    border-bottom: 1px solid var(--dotted);
   }
   .section-title-wrap {
     display: flex;
@@ -190,63 +199,89 @@
     gap: 12px;
   }
   .cat-title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 600;
     color: var(--brick);
     margin: 0;
   }
   .cat-sub {
     font-style: italic;
-    font-size: 15px;
+    font-size: 14.5px;
     color: var(--soft);
     margin: -10px 0 20px;
+    line-height: 1.3;
   }
   .section-counter {
     font-family: "Montserrat", sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--brick);
-    opacity: 0.8;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--soft);
     letter-spacing: 1px;
   }
 
-  /* Kart Tasarımı */
+  /* =========================================================
+     ÜRÜN KARTLARI (İnce Çerçeveli)
+  ========================================================= */
   .product-card {
     background: var(--card-bg);
     border: 1px solid var(--dotted);
     border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  
+  /* Ürün Görseli (Placeholder) */
+  .product-img {
+    width: 75px;
+    height: 75px;
+    border-radius: 8px;
+    background-color: var(--bg-deep); /* Resim yoksa dolgu rengi */
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  .product-info {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    justify-content: center;
+    min-width: 0; /* Text overflow için */
   }
+
   .product-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 15px;
+    gap: 10px;
   }
+
   .product-name {
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 600;
     color: var(--ink);
-    line-height: 1.2;
+    line-height: 1.15;
     margin: 0;
   }
+
   .product-price {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--brick);
     white-space: nowrap;
+    flex-shrink: 0;
   }
+
   .product-desc {
     font-style: italic;
-    font-size: 14.5px;
+    font-size: 13.5px;
     color: var(--soft);
-    margin: 8px 0 0;
-    line-height: 1.4;
+    margin: 6px 0 0;
+    line-height: 1.35;
   }
+
 </style>
 </head>
 <body>
@@ -260,35 +295,39 @@
 </div>
 
 <!-- SABİT ÜST BÖLÜM -->
-<div class="header-wrapper">
+<div class="header-area">
   <div class="top-bar">
     <div class="hamburger"><span></span><span></span><span></span></div>
     <div class="logo-box">
       <h1>dükkan</h1>
       <p>Your Daily Escape</p>
     </div>
-    <svg class="leaf-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="leaf-icon" viewBox="0 0 24 24">
       <path d="M12 21C12 21 7 16.5 7 11.5C7 6.5 12 3 12 3C12 3 17 6.5 17 11.5C17 16.5 12 21 12 21Z"></path>
       <path d="M12 21V11"></path>
     </svg>
   </div>
-  <div class="tabbar" id="tabbar"></div>
+  
+  <div class="tabbar" id="tabbar">
+    <!-- Kategori sekmeleri JS ile gelecek -->
+  </div>
 </div>
 
 <!-- DİKEY İÇERİK ALANI -->
 <div class="content-area" id="contentArea">
-  <!-- JavaScript ile kartlar buraya eklenecek -->
+  <!-- Kategoriler ve kartlar JS ile gelecek -->
 </div>
 
 <script>
+// TAM MENÜ VERİSİ
 const MENU = [
   {
     name: "Başlangıçlar",
     items: [
-      {n:"Patates Tabağı", d:"Anne patatesi, cajun baharatı, patates püresi, maydanoz"},
-      {n:"Karamelize Soğan Eşliğinde Sosis", d:"Karamelize soğan, özel sos, 2 adet frankfurter sosis, maydanoz"},
-      {n:"Parmesanlı Çıtır Tavuk Dilimleri", d:"Çıtır tavuk dilimleri, hardal, özel sos, parmesan"},
-      {n:"Tempura İstiridye Mantarı", d:"Tempura harçlı istiridye mantarı, parmesan, acı mayonez, soğan turşusu, maydanoz"}
+      {n:"Patates Tabağı", p:"210₺", d:"Anne patatesi, cajun baharatı, patates püresi, maydanoz", img: true},
+      {n:"Karamelize Soğan Eşliğinde Sosis", p:"250₺", d:"Karamelize soğan, özel sos, 2 adet frankfurter sosis, maydanoz", img: true},
+      {n:"Parmesanlı Çıtır Tavuk Dilimleri", p:"260₺", d:"Çıtır tavuk dilimleri, hardal, özel sos, parmesan", img: true},
+      {n:"Tempura İstiridye Mantarı", p:"280₺", d:"Tempura harçlı istiridye mantarı, parmesan, acı mayonez, soğan turşusu, maydanoz", img: true}
     ]
   },
   {
@@ -448,78 +487,87 @@ const MENU = [
 const tabbar = document.getElementById('tabbar');
 const contentArea = document.getElementById('contentArea');
 
+// Toplam Kategori Sayısı Formatı (Örn: 12)
+const totalCat = String(MENU.length).padStart(2, '0');
+
 MENU.forEach((cat, index) => {
-  // 1. Tab Menü Oluşturma
+  // 1. Üst Navigasyon Butonları
   const tab = document.createElement('button');
   tab.className = `tab ${index === 0 ? 'active' : ''}`;
   tab.textContent = cat.name;
   tab.onclick = () => switchCategory(index, tab);
   tabbar.appendChild(tab);
 
-  // 2. Kategori Bölümünü Oluşturma
+  // 2. Kategori İçerik Alanı
   const section = document.createElement('div');
   section.className = `category-section ${index === 0 ? 'active' : ''}`;
   section.id = `cat-${index}`;
 
   const catNum = String(index + 1).padStart(2, '0');
-  const totalCat = String(MENU.length).padStart(2, '0');
 
-  // Kategori Başlığı ve Alt Başlık
-  let headerHTML = `
+  // Başlık, İkon ve Sayaç (01 / 13)
+  let sectionHTML = `
     <div class="section-header">
       <div class="section-title-wrap">
-        <svg class="leaf-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="leaf-icon" viewBox="0 0 24 24">
           <path d="M12 21C12 21 7 16.5 7 11.5C7 6.5 12 3 12 3C12 3 17 6.5 17 11.5C17 16.5 12 21 12 21Z"></path>
           <path d="M12 21V11"></path>
         </svg>
         <h2 class="cat-title">${cat.name}</h2>
       </div>
-      <div class="section-counter">${catNum} / ${totalCat}</div>
+      <div class="section-counter">${catNum} /${totalCat}</div>
     </div>
   `;
   
   if (cat.sub) {
-    headerHTML += `<p class="cat-sub">${cat.sub}</p>`;
+    sectionHTML += `<p class="cat-sub">${cat.sub}</p>`;
   }
-  section.innerHTML = headerHTML;
+  section.innerHTML = sectionHTML;
 
-  // Ürün Kartları
+  // Ürün Kartları Döngüsü
   cat.items.forEach(it => {
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    let cardHTML = `
-      <div class="product-top">
-        <h3 class="product-name">${it.n}</h3>
-        ${it.p ? `<span class="product-price">${it.p}</span>` : ''}
+    // Ürün görseli varsa img div'ini ekle (Tasarımda sol taraftaki kutu)
+    let cardContent = ``;
+    if(it.img) {
+      // Not: Gerçek görselleri eklemek istersen '<img src="resim.jpg">' etiketi koyabilirsin.
+      cardContent += `<div class="product-img"></div>`;
+    }
+
+    // Ürün isim, fiyat ve açıklama
+    cardContent += `
+      <div class="product-info">
+        <div class="product-top">
+          <h3 class="product-name">${it.n}</h3>
+          ${it.p ? `<span class="product-price">${it.p}</span>` : ''}
+        </div>
+        ${it.d ? `<p class="product-desc">${it.d}</p>` : ''}
       </div>
     `;
 
-    if (it.d) {
-      cardHTML += `<p class="product-desc">${it.d}</p>`;
-    }
-
-    card.innerHTML = cardHTML;
+    card.innerHTML = cardContent;
     section.appendChild(card);
   });
 
   contentArea.appendChild(section);
 });
 
-// Kategori Değiştirme ve Scroll Yönetimi
+// Kategori Değiştirme Fonksiyonu
 function switchCategory(index, clickedTab) {
-  // Tüm sekmeleri ve bölümleri deaktif et
+  // Eski aktifleri temizle
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
 
-  // Tıklananı aktif et
+  // Yeni tıklananı aktif et
   clickedTab.classList.add('active');
   document.getElementById(`cat-${index}`).classList.add('active');
 
-  // Menü sekmesini ortalayarak kaydır
+  // Üst menü butonunu ekranın ortasına kaydır
   clickedTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
 
-  // İçeriği en başa sar
+  // İçeriği en başa (yukarıya) kaydır
   contentArea.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
