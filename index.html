@@ -3,166 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>QR Menü</title>
+    <title>Dükkan Menü</title>
+    <!-- Swiper CSS (Sayfa geçiş efekti için) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <style>
         :root {
-            --primary-color: #ff6b00;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #212529;
-            --text-muted: #6c757d;
+            --bg-color: #eaddc5; /* Menüdeki bej arkaplan */
+            --accent-color: #9d3e34; /* Menüdeki kiremit/bordo renk */
+            --text-dark: #3a2b25;
+            --font-main: 'Georgia', serif;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); }
         
-        /* Header */
-        header { background-color: var(--card-bg); text-align: center; padding: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        header img { max-height: 50px; }
-        header h1 { font-size: 1.5rem; color: var(--text-main); }
-
-        /* Kategoriler (Yatay Kaydırılabilir) */
-        .category-nav { display: flex; overflow-x: auto; background: var(--card-bg); padding: 10px; border-bottom: 1px solid #eee; position: sticky; top: 70px; z-index: 99; white-space: nowrap; scroll-behavior: smooth; }
-        .category-nav::-webkit-scrollbar { display: none; }
-        .category-btn { background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--text-muted); padding: 8px 16px; margin-right: 10px; border-radius: 20px; transition: 0.3s; }
-        .category-btn.active { background-color: var(--primary-color); color: white; }
-
-        /* Menü İçeriği */
-        .menu-container { padding: 15px; padding-bottom: 50px; }
-        .menu-section { display: none; }
-        .menu-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* Ürün Kartları */
-        .item-card { background: var(--card-bg); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; }
-        .item-info { flex: 1; padding-right: 15px; }
-        .item-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
-        .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-        .item-price { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); white-space: nowrap; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-dark); 
+            font-family: var(--font-main); 
+            overflow: hidden; /* Dikey kaydırmayı Swiper'a bırakıyoruz */
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Çerçeve Tasarımı (Görseldeki gibi) */
+        .frame {
+            position: fixed; top: 10px; bottom: 10px; left: 10px; right: 10px;
+            border: 4px solid var(--accent-color);
+            pointer-events: none; /* Tıklamaları engellemesin */
+            z-index: 100;
+        }
+        .frame-inner {
+            position: fixed; top: 16px; bottom: 16px; left: 16px; right: 16px;
+            border: 2px solid var(--accent-color);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Header / Logo alanı */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            z-index: 10;
+            position: relative;
+        }
+        .header h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            font-weight: bold;
+        }
+        .header p {
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        /* Swiper Container */
+        .swiper {
+            width: 100%;
+            height: calc(100vh - 120px); /* Header sonrası kalan alan */
+        }
+
+        .swiper-slide {
+            padding: 0 30px 40px 30px;
+            overflow-y: auto; /* Sayfa içi dikey kaydırma */
+        }
+        
+        /* Sayfa içi scroll bar gizleme */
+        .swiper-slide::-webkit-scrollbar { display: none; }
+
+        .category-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        /* Ürün Listesi */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            position: relative;
+        }
+
+        /* Noktalı çizgi efekti */
+        .menu-item::after {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            border-bottom: 1px dotted var(--text-dark);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .item-info {
+            background-color: var(--bg-color);
+            padding-right: 10px;
+            max-width: 80%;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .item-desc {
+            font-size: 0.75rem;
+            color: #5a4b45;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .item-price {
+            background-color: var(--bg-color);
+            padding-left: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Alt navigasyon (Sayfa noktaları) */
+        .swiper-pagination {
+            bottom: 25px !important;
+        }
+        .swiper-pagination-bullet {
+            background: var(--accent-color);
+            opacity: 0.5;
+        }
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+        }
+        
+        .swipe-hint {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            opacity: 0.7;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+            100% { opacity: 0.4; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <!-- Buraya kendi logonu koyabilirsin, şimdilik yazı var -->
-        <h1>Dükkan Menü</h1>
-    </header>
+    <!-- Süs Çerçeveleri -->
+    <div class="frame"></div>
+    <div class="frame-inner"></div>
 
-    <div class="category-nav" id="categoryNav">
-        <!-- Kategoriler JavaScript ile buraya yüklenecek -->
+    <div class="header">
+        <h1>dükkan</h1>
+        <p>Your Daily Escape</p>
+    </div>
+    
+    <div class="swipe-hint">← Menüde gezinmek için kaydırın →</div>
+
+    <!-- Swiper Ana Kapsayıcı -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="menuWrapper">
+            <!-- JavaScript ile sayfalar buraya eklenecek -->
+        </div>
+        <!-- Sayfa Noktaları -->
+        <div class="swiper-pagination"></div>
     </div>
 
-    <div class="menu-container" id="menuContainer">
-        <!-- Ürünler JavaScript ile buraya yüklenecek -->
-    </div>
-
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        // Dosyalardan çıkardığımız veriler
-        const menuData = [
+        const menuPages = [
             {
-                id: "baslangiclar",
-                title: "Başlangıçlar",
+                title: "Espresso Bazlı Kahveler",
                 items: [
-                    { name: "Patates Tabağı", desc: "Anne patatesi, cajun baharatı, patates püresi, maydanoz", price: "₺0" },
-                    { name: "Karamelize Soğan Eşliğinde Sosis", desc: "Karamelize soğan, özel sos, frankfurter sosis (2 adet), maydanoz", price: "₺0" },
-                    { name: "Parmesanlı Çıtır Tavuk Dilimleri", desc: "Çıtır tavuk dilimleri, hardal, özel sos, parmesan", price: "₺0" },
-                    { name: "Tempura İstiridye Mantarı", desc: "Tempura harçlı istiridye mantarı, acı mayonez, soğan turşusu, maydanoz", price: "₺0" }
+                    { name: "Espresso Single", desc: "", price: "150₺" },
+                    { name: "Espresso Double", desc: "", price: "170₺" },
+                    { name: "Espresso Macchiato", desc: "", price: "180₺" },
+                    { name: "Americano", desc: "", price: "190₺" },
+                    { name: "Cortado", desc: "", price: "200₺" },
+                    { name: "Cappuccino", desc: "", price: "200₺" },
+                    { name: "Caramel Macchiato", desc: "", price: "220₺" },
+                    { name: "Flat White", desc: "", price: "210₺" },
+                    { name: "Latte", desc: "", price: "200₺" },
+                    { name: "Latte", desc: "(Karamel, Fındık, Vanilya, Cookie, Coconut)", price: "230₺" },
+                    { name: "Fıstık Ezmeli Latte", desc: "", price: "230₺" },
+                    { name: "Badem Ezmeli Latte", desc: "", price: "240₺" },
+                    { name: "Leblebi Ezmeli Latte", desc: "", price: "230₺" },
+                    { name: "Antep Fıstık Ezmeli Latte", desc: "", price: "260₺" },
+                    { name: "Mocha Black/White", desc: "", price: "230₺" },
+                    { name: "Türk Kahvesi", desc: "", price: "160₺" },
+                    { name: "Türk Kahvesi Double", desc: "", price: "220₺" }
                 ]
             },
             {
-                id: "omletler",
-                title: "Omlet Tabakları",
+                title: "Soğuk Kahveler & Demlemeler",
                 items: [
-                    { name: "Klasik Omlet", desc: "2 yumurta, tuz, karabiber (Domates, salatalık ve zeytin salatası eşliğinde)", price: "₺0" },
-                    { name: "Ezine Peynir ve Kuru Domatesli", desc: "2 yumurta, ezine peyniri, kuru domates, kekik (Salata eşliğinde)", price: "₺0" },
-                    { name: "Mantarlı ve Kaşarlı", desc: "2 yumurta, mantar dilimleri, kaşar peyniri, pul biber (Salata eşliğinde)", price: "₺0" },
-                    { name: "Avokadolu Omlet", desc: "2 yumurta, avokado dilimleri, beyaz peynir (Salata eşliğinde)", price: "₺0" },
-                    { name: "Hindi Füme Mantar ve Kaşarlı", desc: "2 yumurta, hindi füme, kaşar peyniri, mantar (Salata eşliğinde)", price: "₺0" }
+                    { name: "Ice Americano", desc: "", price: "210₺" },
+                    { name: "Ice Caramel Macchiato", desc: "", price: "230₺" },
+                    { name: "Ice Filtre Kahve", desc: "", price: "200₺" },
+                    { name: "Ice Latte", desc: "", price: "210₺" },
+                    { name: "Ice Latte", desc: "(Karamel, vb.)", price: "240₺" },
+                    { name: "Ice Leblebi Ezmeli Latte", desc: "", price: "240₺" },
+                    { name: "Ice Fıstık Ezmeli Latte", desc: "", price: "240₺" },
+                    { name: "Ice Badem Ezmeli Latte", desc: "", price: "250₺" },
+                    { name: "Ice Antep Fıstık Ezmeli Latte", desc: "", price: "270₺" },
+                    { name: "Ice Mocha Black/White", desc: "", price: "240₺" },
+                    { name: "Filtre Kahve", desc: "", price: "190₺" },
+                    { name: "Cold Brew", desc: "", price: "230₺" },
+                    { name: "V60 / 2k", desc: "", price: "220/300₺" },
+                    { name: "Chemex / 2k", desc: "", price: "220/300₺" }
                 ]
             },
             {
-                id: "bowllar",
-                title: "Bowllar",
+                title: "Sıcak & Soğuk İçecekler",
                 items: [
-                    { name: "Avokadolu Tavuk Bowl", desc: "Basmati pirinci, avokado, jülyen tavuk, ıceberg, mor lahana turşusu, chipotle sos, kibrit salatalık ve havuç", price: "₺0" },
-                    { name: "Cajun Baharatlı Tavuk Bowl", desc: "Basmati pirinci, jülyen tavuk, sotelenmiş renkli biberler, cajun baharatı, mısır, çeri domates", price: "₺0" },
-                    { name: "Teriyaki Soslu Tavuk Bowl", desc: "Basmati pirinci, jülyen tavuk, teriyaki sos, sotelenmiş karnabahar ve brokoli, susam", price: "₺0" },
-                    { name: "Izgara Köfteli Bowl", desc: "Basmati pirinci, ızgara köfte, özel soslu akdeniz yeşillikleri, nohut, sumaklı maydanoz", price: "₺0" },
-                    { name: "Falafelli Bowl", desc: "Basmati pirinci, falafel topları, yoğurtlu özel sos, közlenmiş kapya biber, mısır", price: "₺0" }
+                    { name: "Çay", desc: "", price: "70₺" },
+                    { name: "Fincan Çay", desc: "", price: "100₺" },
+                    { name: "Ballı Süt", desc: "", price: "210₺" },
+                    { name: "Chai Tea Latte", desc: "", price: "200₺" },
+                    { name: "Salep", desc: "", price: "210₺" },
+                    { name: "Sıcak Çikolata", desc: "(Beyaz, Sütlü)", price: "220₺" },
+                    { name: "Bitki Çayları", desc: "(Adaçayı, Papatya, Kış, Ihlamur, vb.)", price: "170₺" },
+                    { name: "Uludağ Premium Su", desc: "", price: "60₺" },
+                    { name: "Uludağ Premium Soda", desc: "", price: "140₺" },
+                    { name: "Limonata", desc: "", price: "190₺" },
+                    { name: "Çilekli Limonata", desc: "", price: "200₺" },
+                    { name: "Red Bull", desc: "", price: "160₺" }
                 ]
             },
             {
-                id: "tavuklar",
-                title: "Tavuk Tabakları",
+                title: "Smoothies & Mocktails",
                 items: [
-                    { name: "Barbekü Soslu Tavuk", desc: "Jülyen tavuk, kapya biber, yeşil biber, soğan, barbekü sos (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
-                    { name: "Patlıcan ve Parmesanlı Tavuk", desc: "Jülyen tavuk, ızgara patlıcan, kokteyl domates, krema, parmesan (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
-                    { name: "Sweet Chilli Soslu Tavuk", desc: "Jülyen tavuk, sweet chili sos, frenk soğan (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
-                    { name: "Mantarlı Hardallı Tavuk", desc: "Jülyen tavuk, sotelenmiş renkli biberler, soğan, mantar, hardal, krema (Anne patates ve fettucine eşliğinde)", price: "₺0" }
+                    { name: "Berrylicious", desc: "(Muz, Beyaz Çikolata, Bal, Badem, Orman Meyvesi, Yoğurt)", price: "270₺" },
+                    { name: "Strawberry Kiss", desc: "(Taze Çilek, Muz, Fıstık Ezmesi, Karamel, Yoğurt)", price: "270₺" },
+                    { name: "Detox Breeze", desc: "(Yeşil Elma, Salatalık, Nane, Yulaf, Coconut, Yoğurt)", price: "270₺" },
+                    { name: "Lady in Red", desc: "(Böğürtlen, Frambuaz, Çilek, Fesleğen, Lime)", price: "270₺" },
+                    { name: "Greentail", desc: "(Kuzu Kulağı, Salatalık, Nane, Lime, Kaya Tuzu)", price: "270₺" },
+                    { name: "Yes Peaches", desc: "(Şeftali, Melisa Çayı, Tarçın, Lime)", price: "270₺" },
+                    { name: "Oh My Lime", desc: "(Nane, Lime, Limon, Kaya Tuzu)", price: "270₺" }
                 ]
             },
             {
-                id: "salatalar",
-                title: "Salatalar",
+                title: "Tatlılar",
                 items: [
-                    { name: "Falafelli Hellim Salata", desc: "Falafel topları, hellim peyniri, akdeniz yeşillikleri, çeri domates, kırmızı soğan turşusu, nar ekşisi", price: "₺0" },
-                    { name: "Sezar Salata", desc: "Iceberg, kruton, ançüez, woncestershire, ızgara tavuk dilimleri, parmesan", price: "₺0" },
-                    { name: "Rosto Pancar Salatası", desc: "Akdeniz yeşillikleri, kinoa, roka, siyah zeytin, rosto pancar, çökelek peyniri, ceviz içi", price: "₺0" },
-                    { name: "Çıtır Tavuklu Salata", desc: "Akdeniz yeşillikleri, ıceberg, kibrit havuç ve salatalık, çıtır tavuk dilimleri, özel salata sosu", price: "₺0" }
+                    { name: "Brownie", desc: "", price: "280₺" },
+                    { name: "Cheesecake", desc: "", price: "280₺" },
+                    { name: "San Sebastian", desc: "", price: "300₺" },
+                    { name: "Coco Jambo", desc: "", price: "260₺" },
+                    { name: "Tiramisu", desc: "", price: "280₺" },
+                    { name: "Mozaik Pasta", desc: "", price: "240₺" },
+                    { name: "Suffle", desc: "(Beyaz Çikolata, Tahin, Çikolata)", price: "320₺" },
+                    { name: "Magnolia", desc: "", price: "240₺" },
+                    { name: "Medovik", desc: "", price: "260₺" }
                 ]
             },
             {
-                id: "icecekler",
-                title: "Diğer (Örnek)",
+                title: "Yiyecekler (Özet)",
                 items: [
-                    { name: "Dükkan'ın diğer ürünlerini...", desc: "Kod içerisindeki 'menuData' kısmına bakarak kopyala yapıştır ile aynı formatta kolayca ekleyebilirsin.", price: "₺0" }
+                    { name: "Avokadolu Tavuk Bowl", desc: "Basmati pirinci, avokado, jülyen tavuk...", price: "Sorunuz" },
+                    { name: "Barbekü Soslu Tavuk", desc: "Jülyen tavuk, anne patates ve fettucine eşliğinde", price: "Sorunuz" },
+                    { name: "Klasik Omlet", desc: "2 yumurta, salata eşliğinde", price: "Sorunuz" },
+                    { name: "Falafelli Hellim Salata", desc: "Falafel topları, hellim, yeşillik", price: "Sorunuz" }
                 ]
             }
         ];
 
-        // Sayfa Yüklendiğinde Menüyü Oluştur
-        const nav = document.getElementById('categoryNav');
-        const container = document.getElementById('menuContainer');
+        const wrapper = document.getElementById('menuWrapper');
 
-        menuData.forEach((category, index) => {
-            // Butonları oluştur
-            const btn = document.createElement('button');
-            btn.className = `category-btn ${index === 0 ? 'active' : ''}`;
-            btn.innerText = category.title;
-            btn.onclick = () => showCategory(category.id, btn);
-            nav.appendChild(btn);
-
-            // Bölümleri oluştur
-            const section = document.createElement('div');
-            section.className = `menu-section ${index === 0 ? 'active' : ''}`;
-            section.id = category.id;
-            
-            category.items.forEach(item => {
-                section.innerHTML += `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <div class="item-title">${item.name}</div>
-                            <div class="item-desc">${item.desc}</div>
-                        </div>
-                        <div class="item-price">${item.price}</div>
+        menuPages.forEach(page => {
+            let itemsHtml = page.items.map(item => `
+                <div class="menu-item">
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
                     </div>
-                `;
-            });
-            container.appendChild(section);
+                    <div class="item-price">${item.price}</div>
+                </div>
+            `).join('');
+
+            wrapper.innerHTML += `
+                <div class="swiper-slide">
+                    <div class="category-title">${page.title}</div>
+                    <div class="menu-list">
+                        ${itemsHtml}
+                    </div>
+                </div>
+            `;
         });
 
-        // Kategori Değiştirme Fonksiyonu
-        function showCategory(categoryId, btnElement) {
-            document.querySelectorAll('.menu-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(categoryId).classList.add('active');
-            btnElement.classList.add('active');
-            
-            // Tıklanan butonu ortala (Mobil için güzel kaydırma)
-            btnElement.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-        }
+        // Swiper'ı Başlat (Sayfa Geçiş Efekti)
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
     </script>
 </body>
 </html>
-
