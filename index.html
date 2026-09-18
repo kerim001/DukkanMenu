@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QR Menü</title>
+    <style>
+        :root {
+            --primary-color: #ff6b00;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); }
+        
+        /* Header */
+        header { background-color: var(--card-bg); text-align: center; padding: 20px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        header img { max-height: 50px; }
+        header h1 { font-size: 1.5rem; color: var(--text-main); }
+
+        /* Kategoriler (Yatay Kaydırılabilir) */
+        .category-nav { display: flex; overflow-x: auto; background: var(--card-bg); padding: 10px; border-bottom: 1px solid #eee; position: sticky; top: 70px; z-index: 99; white-space: nowrap; scroll-behavior: smooth; }
+        .category-nav::-webkit-scrollbar { display: none; }
+        .category-btn { background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--text-muted); padding: 8px 16px; margin-right: 10px; border-radius: 20px; transition: 0.3s; }
+        .category-btn.active { background-color: var(--primary-color); color: white; }
+
+        /* Menü İçeriği */
+        .menu-container { padding: 15px; padding-bottom: 50px; }
+        .menu-section { display: none; }
+        .menu-section.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        
+        /* Ürün Kartları */
+        .item-card { background: var(--card-bg); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; }
+        .item-info { flex: 1; padding-right: 15px; }
+        .item-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        .item-price { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); white-space: nowrap; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Buraya kendi logonu koyabilirsin, şimdilik yazı var -->
+        <h1>Dükkan Menü</h1>
+    </header>
+
+    <div class="category-nav" id="categoryNav">
+        <!-- Kategoriler JavaScript ile buraya yüklenecek -->
+    </div>
+
+    <div class="menu-container" id="menuContainer">
+        <!-- Ürünler JavaScript ile buraya yüklenecek -->
+    </div>
+
+    <script>
+        // Dosyalardan çıkardığımız veriler
+        const menuData = [
+            {
+                id: "baslangiclar",
+                title: "Başlangıçlar",
+                items: [
+                    { name: "Patates Tabağı", desc: "Anne patatesi, cajun baharatı, patates püresi, maydanoz", price: "₺0" },
+                    { name: "Karamelize Soğan Eşliğinde Sosis", desc: "Karamelize soğan, özel sos, frankfurter sosis (2 adet), maydanoz", price: "₺0" },
+                    { name: "Parmesanlı Çıtır Tavuk Dilimleri", desc: "Çıtır tavuk dilimleri, hardal, özel sos, parmesan", price: "₺0" },
+                    { name: "Tempura İstiridye Mantarı", desc: "Tempura harçlı istiridye mantarı, acı mayonez, soğan turşusu, maydanoz", price: "₺0" }
+                ]
+            },
+            {
+                id: "omletler",
+                title: "Omlet Tabakları",
+                items: [
+                    { name: "Klasik Omlet", desc: "2 yumurta, tuz, karabiber (Domates, salatalık ve zeytin salatası eşliğinde)", price: "₺0" },
+                    { name: "Ezine Peynir ve Kuru Domatesli", desc: "2 yumurta, ezine peyniri, kuru domates, kekik (Salata eşliğinde)", price: "₺0" },
+                    { name: "Mantarlı ve Kaşarlı", desc: "2 yumurta, mantar dilimleri, kaşar peyniri, pul biber (Salata eşliğinde)", price: "₺0" },
+                    { name: "Avokadolu Omlet", desc: "2 yumurta, avokado dilimleri, beyaz peynir (Salata eşliğinde)", price: "₺0" },
+                    { name: "Hindi Füme Mantar ve Kaşarlı", desc: "2 yumurta, hindi füme, kaşar peyniri, mantar (Salata eşliğinde)", price: "₺0" }
+                ]
+            },
+            {
+                id: "bowllar",
+                title: "Bowllar",
+                items: [
+                    { name: "Avokadolu Tavuk Bowl", desc: "Basmati pirinci, avokado, jülyen tavuk, ıceberg, mor lahana turşusu, chipotle sos, kibrit salatalık ve havuç", price: "₺0" },
+                    { name: "Cajun Baharatlı Tavuk Bowl", desc: "Basmati pirinci, jülyen tavuk, sotelenmiş renkli biberler, cajun baharatı, mısır, çeri domates", price: "₺0" },
+                    { name: "Teriyaki Soslu Tavuk Bowl", desc: "Basmati pirinci, jülyen tavuk, teriyaki sos, sotelenmiş karnabahar ve brokoli, susam", price: "₺0" },
+                    { name: "Izgara Köfteli Bowl", desc: "Basmati pirinci, ızgara köfte, özel soslu akdeniz yeşillikleri, nohut, sumaklı maydanoz", price: "₺0" },
+                    { name: "Falafelli Bowl", desc: "Basmati pirinci, falafel topları, yoğurtlu özel sos, közlenmiş kapya biber, mısır", price: "₺0" }
+                ]
+            },
+            {
+                id: "tavuklar",
+                title: "Tavuk Tabakları",
+                items: [
+                    { name: "Barbekü Soslu Tavuk", desc: "Jülyen tavuk, kapya biber, yeşil biber, soğan, barbekü sos (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
+                    { name: "Patlıcan ve Parmesanlı Tavuk", desc: "Jülyen tavuk, ızgara patlıcan, kokteyl domates, krema, parmesan (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
+                    { name: "Sweet Chilli Soslu Tavuk", desc: "Jülyen tavuk, sweet chili sos, frenk soğan (Anne patates ve özel soslu fettucine eşliğinde)", price: "₺0" },
+                    { name: "Mantarlı Hardallı Tavuk", desc: "Jülyen tavuk, sotelenmiş renkli biberler, soğan, mantar, hardal, krema (Anne patates ve fettucine eşliğinde)", price: "₺0" }
+                ]
+            },
+            {
+                id: "salatalar",
+                title: "Salatalar",
+                items: [
+                    { name: "Falafelli Hellim Salata", desc: "Falafel topları, hellim peyniri, akdeniz yeşillikleri, çeri domates, kırmızı soğan turşusu, nar ekşisi", price: "₺0" },
+                    { name: "Sezar Salata", desc: "Iceberg, kruton, ançüez, woncestershire, ızgara tavuk dilimleri, parmesan", price: "₺0" },
+                    { name: "Rosto Pancar Salatası", desc: "Akdeniz yeşillikleri, kinoa, roka, siyah zeytin, rosto pancar, çökelek peyniri, ceviz içi", price: "₺0" },
+                    { name: "Çıtır Tavuklu Salata", desc: "Akdeniz yeşillikleri, ıceberg, kibrit havuç ve salatalık, çıtır tavuk dilimleri, özel salata sosu", price: "₺0" }
+                ]
+            },
+            {
+                id: "icecekler",
+                title: "Diğer (Örnek)",
+                items: [
+                    { name: "Dükkan'ın diğer ürünlerini...", desc: "Kod içerisindeki 'menuData' kısmına bakarak kopyala yapıştır ile aynı formatta kolayca ekleyebilirsin.", price: "₺0" }
+                ]
+            }
+        ];
+
+        // Sayfa Yüklendiğinde Menüyü Oluştur
+        const nav = document.getElementById('categoryNav');
+        const container = document.getElementById('menuContainer');
+
+        menuData.forEach((category, index) => {
+            // Butonları oluştur
+            const btn = document.createElement('button');
+            btn.className = `category-btn ${index === 0 ? 'active' : ''}`;
+            btn.innerText = category.title;
+            btn.onclick = () => showCategory(category.id, btn);
+            nav.appendChild(btn);
+
+            // Bölümleri oluştur
+            const section = document.createElement('div');
+            section.className = `menu-section ${index === 0 ? 'active' : ''}`;
+            section.id = category.id;
+            
+            category.items.forEach(item => {
+                section.innerHTML += `
+                    <div class="item-card">
+                        <div class="item-info">
+                            <div class="item-title">${item.name}</div>
+                            <div class="item-desc">${item.desc}</div>
+                        </div>
+                        <div class="item-price">${item.price}</div>
+                    </div>
+                `;
+            });
+            container.appendChild(section);
+        });
+
+        // Kategori Değiştirme Fonksiyonu
+        function showCategory(categoryId, btnElement) {
+            document.querySelectorAll('.menu-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(categoryId).classList.add('active');
+            btnElement.classList.add('active');
+            
+            // Tıklanan butonu ortala (Mobil için güzel kaydırma)
+            btnElement.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        }
+    </script>
+</body>
+</html>
+
