@@ -1,0 +1,19 @@
+{
+  "name": "dukkan-menu",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.9",
+    "vue": "^3.5.43",
+    "pinia": "^2.1.8"
+  }
+}

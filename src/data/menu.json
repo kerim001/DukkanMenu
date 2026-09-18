@@ -1,0 +1,167 @@
+{
+  "MENU": [
+    {
+      "name": "Başlangıçlar",
+      "items": [
+        { "n": "Patates Tabağı", "d": "Anne patatesi, cajun baharatı, patates püresi, maydanoz" },
+        { "n": "Karamelize Soğan Eşliğinde Sosis", "d": "Karamelize soğan, özel sos, 2 adet frankfurter sosis, maydanoz" },
+        { "n": "Parmesanlı Çıtır Tavuk Dilimleri", "d": "Çıtır tavuk dilimleri, hardal, özel sos, parmesan" },
+        { "n": "Tempura İstiridye Mantarı", "d": "Tempura harçlı istiridye mantarı, parmesan, acı mayonez, soğan turşusu, maydanoz" }
+      ]
+    },
+    {
+      "name": "Omlet Tabakları",
+      "sub": "Tümü domates, salatalık ve zeytin salatası eşliğinde",
+      "items": [
+        { "n": "Klasik Omlet", "d": "2 yumurta, tuz, karabiber" },
+        { "n": "Ezine Peynir ve Kuru Domatesli", "d": "2 yumurta, ezine peyniri, kuru domates, kekik" },
+        { "n": "Mantarlı ve Kaşarlı", "d": "2 yumurta, mantar dilimleri, kaşar peyniri, pul biber" },
+        { "n": "Avokadolu Omlet", "d": "2 yumurta, avokado dilimleri, beyaz peynir" },
+        { "n": "Hindi Füme Mantar ve Kaşarlı", "d": "2 yumurta, hindi füme, kaşar peyniri, mantar" }
+      ]
+    },
+    {
+      "name": "Bowllar",
+      "items": [
+        { "n": "Avokadolu Tavuk Bowl", "d": "Basmati pirinci, avokado, jülyen tavuk, iceberg, mor lahana turşusu, chipotle sos, kibrit salatalık ve havuç, nar ekşisi, özel salata sosu" },
+        { "n": "Cajun Baharatlı Tavuk Bowl", "d": "Basmati pirinci, jülyen tavuk, sotelenmiş renkli biberler, çeri domates, iceberg, mısır, özel salata sosu, cajun baharatı" },
+        { "n": "Teriyaki Soslu Tavuk Bowl", "d": "Basmati pirinci, jülyen tavuk, teriyaki sos, sotelenmiş karnabahar ve brokoli, kibrit salatalık ve havuç, mısır, özel salata sosu, susam" },
+        { "n": "Izgara Köfteli Bowl", "d": "Basmati pirinci, ızgara köfte, özel soslu akdeniz yeşillikleri, çeri domates, nohut, sumaklı maydanoz" },
+        { "n": "Falafelli Bowl", "d": "Basmati pirinci, falafel topları, yoğurtlu özel sos, közlenmiş kapya biber, nohut, avokado, karabuğday, kibrit havuç ve salatalık" },
+        { "n": "Somonlu Bowl", "d": "Basmati pirinci, fırınlanmış somon fileto, maş fasülyesi, sotelenmiş brokoli, çeri domates, özel salata sosu" },
+        { "n": "Kahvaltı Bowl", "d": "Akdeniz yeşillikleri, çeri domates, avokado, beyaz peynir, göz yumurta, baby patates, çörek otu, roast beef" }
+      ]
+    },
+    {
+      "name": "Tavuk Tabakları",
+      "sub": "Tümü anne patatesi ve özel soslu fettucine eşliğinde",
+      "image": "/images/tavuk-tabak.jpg",
+      "items": [
+        { "n": "Barbekü Soslu Tavuk", "d": "Jülyen tavuk, kapya biber, yeşil biber, soğan, barbekü sos" },
+        { "n": "Patlıcan ve Parmesanlı Tavuk", "d": "Jülyen tavuk, ızgara patlıcan, kokteyl domates, krema, parmesan" },
+        { "n": "Yeşil Soslu Tavuk", "d": "Jülyen tavuk, krema, ıspanak, bezelye, kuşkonmaz" },
+        { "n": "Sweet Chilli Soslu Tavuk", "d": "Jülyen tavuk, sweet chili sos, frenk soğan" },
+        { "n": "Mantarlı Hardallı Tavuk", "d": "Jülyen tavuk, sotelenmiş renkli biberler, soğan, mantar, hardal, krema" },
+        { "n": "Sebzeli Tavuk", "d": "Jülyen tavuk, brokoli, karnabahar, havuç, krema, parmesan" },
+        { "n": "Özel Beşamel Soslu Tavuk", "d": "Jülyen tavuk, soğan, süt, tereyağı, un, muskat" },
+        { "n": "Kremalı Kuru Domatesli Tavuk", "d": "Jülyen tavuk, arpacık soğan, kuru domates, kuru reyhan, krema" },
+        { "n": "Meksika Soslu Tavuk", "d": "Jülyen tavuk, sotelenmiş renkli biberler, mısır, jalapeno, soğan, acılı domates sos" }
+      ]
+    },
+    {
+      "name": "Salatalar",
+      "items": [
+        { "n": "Falafelli Hellim Salata", "d": "Falafel topları, hellim peyniri, akdeniz yeşillikleri, çeri domates, kırmızı soğan turşusu, kibrit salatalık, nar ekşisi" },
+        { "n": "Sezar Salata", "d": "Iceberg, kruton, kibrit havuç, ançüez, worcestershire sos, ızgara tavuk, parmesan" },
+        { "n": "Rosto Pancar Salatası", "d": "Akdeniz yeşillikleri, kinoa, roka, siyah zeytin, rosto pancar, çökelek peyniri, ceviz içi" },
+        { "n": "Çıtır Tavuklu Salata", "d": "Akdeniz yeşillikleri, iceberg, kibrit havuç ve salatalık, çıtır tavuk, çeri domates" }
+      ]
+    },
+    {
+      "name": "Espresso Bazlı Kahveler",
+      "items": [
+        { "n": "Espresso Single", "p": "150₺" },
+        { "n": "Espresso Double", "p": "170₺" },
+        { "n": "Espresso Macchiato", "p": "180₺" },
+        { "n": "Americano", "p": "190₺" },
+        { "n": "Cortado", "p": "200₺" },
+        { "n": "Cappuccino", "p": "200₺" },
+        { "n": "Caramel Macchiato", "p": "220₺" },
+        { "n": "Flat White", "p": "210₺" },
+        { "n": "Latte", "p": "200₺" },
+        { "n": "Latte (Karamel, Fındık, Vanilya, Cookie, Coconut)", "p": "230₺" },
+        { "n": "Fıstık Ezmeli Latte", "p": "230₺" },
+        { "n": "Badem Ezmeli Latte", "p": "240₺" },
+        { "n": "Leblebi Ezmeli Latte", "p": "230₺" },
+        { "n": "Antep Fıstık Ezmeli Latte", "p": "260₺" },
+        { "n": "Mocha Black/White", "p": "230₺" },
+        { "n": "Türk Kahvesi", "p": "160₺" },
+        { "n": "Türk Kahvesi Double", "p": "220₺" }
+      ]
+    },
+    {
+      "name": "Sıcak İçecekler",
+      "items": [
+        { "n": "Çay", "p": "70₺" },
+        { "n": "Fincan Çay", "p": "100₺" },
+        { "n": "Ballı Süt", "p": "210₺" },
+        { "n": "Chai Tea Latte", "p": "200₺" },
+        { "n": "Salep", "p": "210₺" },
+        { "n": "Sıcak Çikolata (Beyaz, Sütlü)", "p": "220₺" },
+        { "n": "Bitki Çayları (Adaçayı, Papatya, Kış Çayı, Ihlamur, Kuşburnu, Kiraz Sapı, Yeşil Çay)", "p": "170₺" }
+      ]
+    },
+    {
+      "name": "Soğuk İçecekler",
+      "items": [
+        { "n": "Uludağ Premium Su", "p": "60₺" },
+        { "n": "Uludağ Premium Soda", "p": "140₺" },
+        { "n": "Uludağ Gazoz", "p": "150₺" },
+        { "n": "Churchill", "p": "150₺" },
+        { "n": "Limonata", "p": "190₺" },
+        { "n": "Çilekli Limonata", "p": "200₺" },
+        { "n": "Homemade IceTea", "p": "180₺" },
+        { "n": "Reyhan", "p": "180₺" },
+        { "n": "Meyve Suyu (Şeftali, Vişne, Kayısı, Mango)", "p": "150₺" },
+        { "n": "Red Bull", "p": "160₺" },
+        { "n": "Red Bull White Edition", "p": "160₺" }
+      ]
+    },
+    {
+      "name": "Soğuk Kahveler",
+      "items": [
+        { "n": "Ice Americano", "p": "210₺" },
+        { "n": "Ice Caramel Macchiato", "p": "230₺" },
+        { "n": "Ice Filtre Kahve", "p": "200₺" },
+        { "n": "Ice Latte", "p": "210₺" },
+        { "n": "Ice Latte (Karamel, Fındık, Vanilya, Cookie, Coconut)", "p": "240₺" },
+        { "n": "Ice Leblebi Ezmeli Latte", "p": "240₺" },
+        { "n": "Ice Fıstık Ezmeli Latte", "p": "240₺" },
+        { "n": "Ice Badem Ezmeli Latte", "p": "250₺" },
+        { "n": "Ice Antep Fıstık Ezmeli Latte", "p": "270₺" },
+        { "n": "Ice Mocha Black/White", "p": "240₺" }
+      ]
+    },
+    {
+      "name": "Demlemeler",
+      "items": [
+        { "n": "Filtre Kahve", "p": "190₺" },
+        { "n": "Cold Brew", "p": "230₺" },
+        { "n": "V60 / 2 Kişilik", "p": "220₺ / 300₺" },
+        { "n": "Chemex / 2 Kişilik", "p": "220₺ / 300₺" }
+      ]
+    },
+    {
+      "name": "Tatlılar",
+      "items": [
+        { "n": "Brownie", "p": "280₺" },
+        { "n": "Cheesecake", "p": "280₺" },
+        { "n": "San Sebastian", "p": "300₺" },
+        { "n": "Coco Jambo", "p": "260₺" },
+        { "n": "Tiramisu", "p": "280₺" },
+        { "n": "Mozaik Pasta", "p": "240₺" },
+        { "n": "Suffle (Beyaz Çikolata, Tahin, Çikolata)", "p": "320₺" },
+        { "n": "Magnolia", "p": "240₺" },
+        { "n": "Medovik", "p": "260₺" }
+      ]
+    },
+    {
+      "name": "Smoothies",
+      "items": [
+        { "n": "Berrylicious", "d": "Muz, beyaz çikolata, bal, badem ezmesi, orman meyvesi, süt, yoğurt", "p": "270₺" },
+        { "n": "Strawberry Kiss", "d": "Taze çilek, muz, yer fıstığı ezmesi, karamel, süt, yoğurt", "p": "270₺" },
+        { "n": "Detox Breeze", "d": "Yeşil Bayramiç elması, salatalık, nane, yulaf, coconut özü, süt, yoğurt", "p": "270₺" }
+      ]
+    },
+    {
+      "name": "Mocktails",
+      "items": [
+        { "n": "Lady in Red", "d": "Böğürtlen, frambuaz, frenk üzümü, taze fesleğen, lime, şeker kamışı", "p": "270₺" },
+        { "n": "Greentail", "d": "Kuzu kulağı, salatalık, nane, lime, şeker kamışı, kaya tuzu", "p": "270₺" },
+        { "n": "Yes Peaches", "d": "Şeftali, melisa çayı, tarçın çubuğu, lime, şeker kamışı, gül", "p": "270₺" },
+        { "n": "Oh My Lime", "d": "Nane, lime, limon, şeker kamışı, kaya tuzu", "p": "270₺" }
+      ]
+    }
+  ],
+  "CATEGORY_IMAGES": {}
+}
