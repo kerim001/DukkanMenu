@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#F8F5ED">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" >
 <meta http-equiv="Pragma" content="no-cache" >
-<meta http-equiv="Expires" contemt="0">
+<meta http-equiv="Expires" content="0">
 <title>Dükkan Çanakkale</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +18,11 @@
 .header{position:fixed;z-index:80;top:var(--frame);left:var(--frame);right:var(--frame);height:calc(var(--header) + var(--tabs));background:rgba(248,245,237,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .brand{height:var(--header);display:grid;grid-template-columns:42px 1fr 42px;align-items:center}.logo{display:block;width:min(180px,55vw);max-height:58px;height:auto;object-fit:contain;margin:auto}.hamb{width:21px;height:15px;margin:auto;display:flex;flex-direction:column;justify-content:space-between}.hamb span{height:1px;background:var(--brick);width:100%}.hamb span:nth-child(2){width:14px}.hamb span:nth-child(3){width:8px}.leaf{width:25px;height:29px;margin:auto;position:relative;transform:rotate(-28deg)}.leaf:before{content:"";position:absolute;left:12px;bottom:0;width:1px;height:29px;background:var(--brick)}.leaf:after{content:"";position:absolute;left:8px;top:8px;width:10px;height:7px;border-top:1px solid var(--brick);border-right:1px solid var(--brick);transform:rotate(-20deg);box-shadow:-5px 8px 0 -1px var(--bg),6px 7px 0 -1px var(--bg)}
 .tabs{height:var(--tabs);display:flex;align-items:flex-end;overflow-x:auto;scrollbar-width:none;border-top:1px solid rgba(217,203,183,.5);touch-action:pan-x}.tabs::-webkit-scrollbar{display:none}.tab{position:relative;flex:0 0 auto;border:0;background:transparent;color:var(--soft);padding:0 13px 10px;white-space:nowrap;font-size:14px;cursor:pointer}.tab:after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--brick);transform:scaleX(0);transition:transform .2s}.tab.active{color:var(--brick);font-weight:600}.tab.active:after{transform:scaleX(1)}
+
+/* ÇÖZÜM 2: Birden fazla sayfa atlamasını önlemek için "scroll-snap-stop: always" eklendi */
 .track{position:fixed;inset:0;z-index:10;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none}.track::-webkit-scrollbar{display:none}
-.page{position:relative;flex:0 0 100vw;width:100vw;height:100dvh;scroll-snap-align:start;overflow-y:auto;overflow-x:hidden;padding:calc(var(--frame) + var(--header) + var(--tabs) + 17px) calc(var(--frame) + 14px) calc(var(--frame) + 30px);overscroll-behavior-y:contain}
+.page{position:relative;flex:0 0 100vw;width:100vw;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow-y:auto;overflow-x:hidden;padding:calc(var(--frame) + var(--header) + var(--tabs) + 17px) calc(var(--frame) + 14px) calc(var(--frame) + 30px);overscroll-behavior-y:contain}
+
 .cover{display:flex;align-items:center;justify-content:center;text-align:center;padding-top:calc(var(--header) + 10px)}.cover-logo{width:min(82vw,420px);max-height:190px;height:auto;object-fit:contain;margin-bottom:18px}.place{margin:0;color:var(--soft);font:500 10px Montserrat,sans-serif;letter-spacing:.34em;text-transform:uppercase}.rule{width:85px;height:1px;margin:23px auto 18px;background:var(--brick);opacity:.55}.hint{margin:0;color:var(--soft);font-size:15px;font-style:italic}.hint span{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;margin-left:7px;border:1px solid var(--line);border-radius:50%;color:var(--brick);animation:nudge 1.8s ease-in-out infinite}@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
 .category{max-width:850px;margin:auto}.hero{position:relative;min-height:145px;margin-bottom:16px;border:1px solid var(--line);border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 15% 80%,rgba(169,67,49,.09),transparent 35%),radial-gradient(circle at 85% 20%,rgba(169,67,49,.08),transparent 35%),linear-gradient(135deg,#FCFAF5,#F2EBDD);box-shadow:0 10px 30px rgba(67,43,27,.06)}.hero:before,.hero:after{content:"";position:absolute;width:30px;height:30px;border-color:var(--brick);opacity:.38}.hero:before{top:9px;left:9px;border-top:1px solid;border-left:1px solid}.hero:after{right:9px;bottom:9px;border-right:1px solid;border-bottom:1px solid}.hero.has-image{background-size:cover;background-position:center}.hero.has-image .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(35,23,17,.62),rgba(35,23,17,.2))}.hero-content{position:relative;z-index:2;width:calc(100% - 100px);padding:14px}.orn{margin:0;color:var(--brick);font-size:24px;line-height:1}.hero-title{margin:3px 0 0;color:var(--brick-dark);font-size:clamp(28px,8vw,45px);font-weight:600;line-height:1}.hero-sub{margin:7px auto 0;color:var(--soft);font-size:14px;line-height:1.25;font-style:italic;max-width:55ch}.hero.has-image .orn,.hero.has-image .hero-title,.hero.has-image .hero-sub{color:#fff}.hero-btn{position:absolute;z-index:4;top:50%;transform:translateY(-50%);width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:rgba(252,250,245,.92);color:var(--brick);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;line-height:1}.hero-btn:active{transform:translateY(-50%) scale(.92)}.hero-btn.prev{left:10px}.hero-btn.next{right:10px}.hero-number{position:absolute;z-index:3;bottom:8px;left:50%;transform:translateX(-50%);font:8px Montserrat,sans-serif;letter-spacing:.15em;color:var(--soft)}.hero.has-image .hero-number{color:#fff}
 .menu{background:var(--paper);border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 30px rgba(67,43,27,.06);overflow:hidden;position:relative}.menu:before{content:"";position:absolute;left:9px;top:9px;width:25px;height:25px;border-top:1px solid var(--brick);border-left:1px solid var(--brick);opacity:.3}.menu:after{content:"";position:absolute;right:9px;bottom:9px;width:25px;height:25px;border-right:1px solid var(--brick);border-bottom:1px solid var(--brick);opacity:.3}.items{padding:5px 15px}.item{padding:15px 2px;border-bottom:1px dotted var(--line)}.item:last-child{border-bottom:0}.name-row{display:flex;align-items:baseline;gap:8px}.name{min-width:0;color:var(--ink);font-size:19px;font-weight:600;line-height:1.1}.leader{flex:1;min-width:10px;border-bottom:1px dotted var(--line);margin-bottom:4px}.price{color:var(--brick);font-size:17px;font-weight:600;white-space:nowrap}.desc{margin:5px 0 0;color:var(--soft);font-size:13.5px;line-height:1.3;font-style:italic}.no-price .name{flex:1}.end{text-align:center;color:var(--soft);padding:18px 5px 8px;font-size:13px;font-style:italic}.end strong{color:var(--brick);font-style:normal}
@@ -138,7 +141,13 @@ MENU.forEach((cat,i)=>{
   cat.items.forEach(item=>{
     const row=el('article','item');
     const nr=el('div','name-row');nr.append(el('span','name',item.n));
-    if(item.p){nr.append(el('span','leader'));nr.append(el('span','price',item.p))}
+    
+    // ÇÖZÜM 1: Ürünün fiyatı (item.p) tanımlanmamışsa "999₺" yaz.
+    const priceText = item.p ? item.p : "999₺"; 
+    
+    nr.append(el('span','leader'));
+    nr.append(el('span','price',priceText));
+    
     row.append(nr);
     if(item.d)row.append(el('p','desc',item.d));
     items.append(row);
@@ -179,11 +188,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')go(currentIndex()-1);
 });
 
-/*
-   Native horizontal/vertical nested scrolling is intentionally used.
-   No JS swipe recognizer is added: vertical scrolling inside a category
-   remains natural, while a horizontal gesture moves the outer category track.
-*/
 window.addEventListener('resize',()=>{
   const i=Math.max(-1,currentIndex());
   track.scrollLeft=(i+1)*track.clientWidth;
