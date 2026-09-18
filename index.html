@@ -143,7 +143,7 @@ MENU.forEach((cat,i)=>{
     const nr=el('div','name-row');nr.append(el('span','name',item.n));
     
     // ÇÖZÜM 1: Ürünün fiyatı (item.p) tanımlanmamışsa "999₺" yaz.
-    const priceText = item.p ? item.p : "999₺"; 
+    const priceText = item.p ? item.p : ""; 
     
     nr.append(el('span','leader'));
     nr.append(el('span','price',priceText));
