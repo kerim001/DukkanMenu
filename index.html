@@ -125,6 +125,8 @@
 
   .scroll-hint{display:flex;justify-content:center;padding:6px 0 4px;color:var(--soft);opacity:.6;animation:bob 1.6s ease-in-out infinite;}
   .scroll-hint svg{width:18px;height:18px;}
+  #swipeZone{ transition: opacity .15s ease; }
+#swipeZone.fade-out{ opacity: 0; }
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
   @media (prefers-reduced-motion: reduce){.scroll-hint{animation:none;}}
 </style>
@@ -405,16 +407,15 @@ function render(){
   list.scrollTop = 0;
 }
 
-function goTo(i){ current = (i + MENU.length) % MENU.length; render(); }
-prevBtn.addEventListener('click', () => goTo(current - 1));
-nextBtn.addEventListener('click', () => goTo(current + 1));
-
-document.getElementById('enterBtn').addEventListener('click', () => {
-  splash.classList.add('hidden');
-  app.classList.add('visible');
-  render();
-});
-
+function goTo(i){
+  swipeZone.classList.add('fade-out');
+  setTimeout(() => {
+    current = (i + MENU.length) % MENU.length;
+    render();
+    swipeZone.classList.remove('fade-out');
+  }, 140);
+}
+  
 // ---- vertical scroll inside the list collapses & fades the hero ----
 const COLLAPSE_DISTANCE = 120; // px of scroll over which the hero fully collapses
 const HERO_EXPANDED = 168;
