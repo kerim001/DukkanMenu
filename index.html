@@ -675,12 +675,6 @@
   </template>
 
   <script>
-    /* =====================================================================
-       MENÜ VERİSİ
-       Fotoğraf eklemek için kategoriye (kapak) ya da ürüne `image: "yol"` yaz.
-       Ürün fotoğrafı hem listede küçük resim hem de büyütülen görsel olarak kullanılır:
-       ~800x600 (4:3) WebP önerilir. Kategori kapağı için ~900x400.
-       ===================================================================== */
     const MENU = [
       {
         name: "Başlangıçlar",
@@ -782,6 +776,32 @@
         ]
       },
       {
+        name: "Soğuk Kahveler",
+        tagline: "Kahveyi buzla buluşturun.",
+        items: [
+          { n: "Ice Americano", p: "210₺" },
+          { n: "Ice Caramel Macchiato", p: "230₺" },
+          { n: "Ice Filtre Kahve", p: "200₺" },
+          { n: "Ice Latte", p: "210₺" },
+          { n: "Ice Latte (Karamel, Fındık, Vanilya, Cookie, Coconut)", p: "240₺" },
+          { n: "Ice Leblebi Ezmeli Latte", p: "240₺" },
+          { n: "Ice Fıstık Ezmeli Latte", p: "240₺" },
+          { n: "Ice Badem Ezmeli Latte", p: "250₺" },
+          { n: "Ice Antep Fıstık Ezmeli Latte", p: "270₺" },
+          { n: "Ice Mocha Black/White", p: "240₺" }
+        ]
+      },
+      {
+        name: "Demlemeler",
+        tagline: "Zamanla demlenen lezzet.",
+        items: [
+          { n: "Filtre Kahve", p: "190₺" },
+          { n: "Cold Brew", p: "230₺" },
+          { n: "V60 / 2 Kişilik", p: "220₺ / 300₺" },
+          { n: "Chemex / 2 Kişilik", p: "220₺ / 300₺" }
+        ]
+      },
+      {
         name: "Sıcak İçecekler",
         tagline: "İçinizi ısıtan sıcaklıklar.",
         items: [
@@ -809,32 +829,6 @@
           { n: "Meyve Suyu (Şeftali, Vişne, Kayısı, Mango)", p: "150₺" },
           { n: "Red Bull", p: "160₺" },
           { n: "Red Bull White Edition", p: "160₺" }
-        ]
-      },
-      {
-        name: "Soğuk Kahveler",
-        tagline: "Kahveyi buzla buluşturun.",
-        items: [
-          { n: "Ice Americano", p: "210₺" },
-          { n: "Ice Caramel Macchiato", p: "230₺" },
-          { n: "Ice Filtre Kahve", p: "200₺" },
-          { n: "Ice Latte", p: "210₺" },
-          { n: "Ice Latte (Karamel, Fındık, Vanilya, Cookie, Coconut)", p: "240₺" },
-          { n: "Ice Leblebi Ezmeli Latte", p: "240₺" },
-          { n: "Ice Fıstık Ezmeli Latte", p: "240₺" },
-          { n: "Ice Badem Ezmeli Latte", p: "250₺" },
-          { n: "Ice Antep Fıstık Ezmeli Latte", p: "270₺" },
-          { n: "Ice Mocha Black/White", p: "240₺" }
-        ]
-      },
-      {
-        name: "Demlemeler",
-        tagline: "Zamanla demlenen lezzet.",
-        items: [
-          { n: "Filtre Kahve", p: "190₺" },
-          { n: "Cold Brew", p: "230₺" },
-          { n: "V60 / 2 Kişilik", p: "220₺ / 300₺" },
-          { n: "Chemex / 2 Kişilik", p: "220₺ / 300₺" }
         ]
       },
       {
