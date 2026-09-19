@@ -407,12 +407,16 @@ function render(){
   list.scrollTop = 0;
 }
 
+let switching = false;
 function goTo(i){
+  if (switching) return;
+  switching = true;
   swipeZone.classList.add('fade-out');
   setTimeout(() => {
     current = (i + MENU.length) % MENU.length;
     render();
     swipeZone.classList.remove('fade-out');
+    switching = false;
   }, 140);
 }
   
