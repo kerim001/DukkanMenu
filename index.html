@@ -75,7 +75,8 @@
   .tab.active{background:var(--brick);color:#fff;font-weight:600;}
 
   /* wraps hero + pager + list; this is the zone that listens for left/right swipes */
-  #swipeZone{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+  #swipeZone{ transition: opacity .15s ease; }
+#swipeZone.fade-out{ opacity: 0; }
 
   .hero{
     flex:0 0 auto;position:relative;margin:0 18px;border-radius:20px;overflow:hidden;
@@ -125,8 +126,7 @@
 
   .scroll-hint{display:flex;justify-content:center;padding:6px 0 4px;color:var(--soft);opacity:.6;animation:bob 1.6s ease-in-out infinite;}
   .scroll-hint svg{width:18px;height:18px;}
-  #swipeZone{ transition: opacity .15s ease; }
-#swipeZone.fade-out{ opacity: 0; }
+
   @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
   @media (prefers-reduced-motion: reduce){.scroll-hint{animation:none;}}
 </style>
