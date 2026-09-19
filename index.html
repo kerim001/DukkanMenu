@@ -472,7 +472,7 @@
       border: none;
       overflow: hidden;
       border-radius: 24px 24px 0 0;
-      background: var(--bg);
+      background: transparent;
       color: var(--ink);
     }
 
@@ -482,6 +482,11 @@
 
     dialog::backdrop {
       background: rgba(59, 42, 29, .55);
+      transition: background .24s ease;
+    }
+
+    dialog.is-closing::backdrop {
+      background: rgba(59, 42, 29, 0);
     }
 
     @keyframes sheet-up {
@@ -507,6 +512,32 @@
       position: relative;
       max-height: 92dvh;
       overflow-y: auto;
+      background: var(--bg);
+      touch-action: pan-y;
+      transition: transform .22s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .modal-handle {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      z-index: 5;
+      width: 42px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(59, 42, 29, .28);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .sheet.dragging {
+      transition: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    dialog.is-closing .sheet {
+      transition: transform .24s cubic-bezier(.4, 0, 1, 1);
     }
 
     .modal-img {
@@ -611,6 +642,7 @@
 
   <dialog id="modal" aria-labelledby="modalName">
     <div class="sheet">
+      <span class="modal-handle" aria-hidden="true"></span>
       <button class="modal-close" id="modalClose" aria-label="Kapat">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
           stroke-linecap="round" aria-hidden="true">
@@ -1029,11 +1061,96 @@
       desc.textContent = item.d || '';
       desc.hidden = !item.d;
 
+      modal.classList.remove('is-closing');
+      sheet.style.transform = '';
       modal.showModal();
     }
 
     document.getElementById('modalClose').addEventListener('click', () => modal.close());
     modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });   // boşluğa dokununca kapanır
+
+    /* ---------- detay penceresini aşağı sürükleyerek kapatma ---------- */
+    const sheet = modal.querySelector('.sheet');
+    const modalDrag = { pointerId: null, startY: 0, active: false, touch: false };
+
+    sheet.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'pen' || e.target.closest('button') || sheet.scrollTop > 0) return;
+      modalDrag.pointerId = e.pointerId;
+      modalDrag.startY = e.clientY;
+      modalDrag.active = false;
+    });
+
+    function moveModalDrag(event, y) {
+      const distance = y - modalDrag.startY;
+      if (distance <= 0) return;
+      if (!modalDrag.active && distance < 8) return;
+
+      modalDrag.active = true;
+      if (modalDrag.pointerId !== null) {
+        try {
+          sheet.setPointerCapture(modalDrag.pointerId);
+        } catch {
+          // Pointer tarayici tarafindan zaten birakildiysa hareketi yine de tamamla.
+        }
+      }
+      sheet.classList.add('dragging');
+      if (event.cancelable) event.preventDefault();
+      sheet.style.transform = 'translateY(' + Math.min(distance * .92, 220) + 'px)';
+    }
+
+    function finishModalDrag(y, cancelled) {
+      const distance = y - modalDrag.startY;
+      const shouldClose = !cancelled && modalDrag.active && distance >= 80;
+      modalDrag.pointerId = null;
+      modalDrag.active = false;
+
+      if (shouldClose) {
+        sheet.classList.remove('dragging');
+        modal.classList.add('is-closing');
+        sheet.style.transform = 'translateY(100%)';
+        window.setTimeout(() => {
+          sheet.style.transform = '';
+          modal.classList.remove('is-closing');
+          modal.close();
+        }, 220);
+      } else {
+        sheet.classList.remove('dragging');
+        sheet.style.transform = '';
+      }
+    }
+
+    sheet.addEventListener('pointermove', e => {
+      if (e.pointerId === modalDrag.pointerId) moveModalDrag(e, e.clientY);
+    });
+    sheet.addEventListener('pointerup', e => {
+      if (e.pointerId === modalDrag.pointerId) finishModalDrag(e.clientY, false);
+    });
+    sheet.addEventListener('pointercancel', e => {
+      if (e.pointerId === modalDrag.pointerId) finishModalDrag(e.clientY, true);
+    });
+
+    // Mobile Chrome/Opera fallback: touch events continue even when pointer capture is cancelled.
+    sheet.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1 || e.target.closest('button') || sheet.scrollTop > 0) return;
+      modalDrag.touch = true;
+      modalDrag.pointerId = null;
+      modalDrag.startY = e.touches[0].clientY;
+      modalDrag.active = false;
+    }, { passive: false });
+    sheet.addEventListener('touchmove', e => {
+      if (!modalDrag.touch || e.touches.length !== 1) return;
+      moveModalDrag(e, e.touches[0].clientY);
+    }, { passive: false });
+    sheet.addEventListener('touchend', e => {
+      if (!modalDrag.touch) return;
+      modalDrag.touch = false;
+      finishModalDrag(e.changedTouches[0].clientY, false);
+    }, { passive: false });
+    sheet.addEventListener('touchcancel', () => {
+      if (!modalDrag.touch) return;
+      modalDrag.touch = false;
+      finishModalDrag(modalDrag.startY, true);
+    }, { passive: false });
 
     /* ---------- yatay kaydırma (tek yöntem: pointer events) ---------- */
     const drag = { pointerId: null, startX: 0, startY: 0, startTime: 0, active: false, lastEnd: 0 };
