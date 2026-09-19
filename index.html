@@ -938,10 +938,10 @@
         img.loading = 'lazy';
         img.decoding = 'async';
         img.dataset.src = withVersion(item.image);           // loadPanel() gerektiğinde yükler
-        img.addEventListener('load', () => makeZoomable(card, item));
         img.addEventListener('error', () => thumb.remove());  // dosya yoksa alan hiç görünmez
         thumb.append(img);
         card.append(thumb);
+        makeZoomable(card, item);                            // görsel yüklenmesini beklemeden açılabilir
       }
 
       const body = el('div', 'card-body');
@@ -962,7 +962,7 @@
       card.setAttribute('role', 'button');
       card.setAttribute('aria-label', item.n + ' — fotoğrafı büyüt');
       card.addEventListener('click', () => {
-        if (performance.now() - drag.lastEnd > 300) openModal(item);   // sürüklemeden sonra açılmasın
+        openModal(item);
       });
       card.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(item); }
@@ -1153,10 +1153,11 @@
     }, { passive: false });
 
     /* ---------- yatay kaydırma (tek yöntem: pointer events) ---------- */
-    const drag = { pointerId: null, startX: 0, startY: 0, startTime: 0, active: false, lastEnd: 0 };
+    const drag = { pointerId: null, startX: 0, startY: 0, startTime: 0, active: false, suppressClick: false };
 
     swipeZone.addEventListener('pointerdown', e => {
       if ((e.pointerType === 'mouse' && e.button !== 0) || e.target.closest('button')) return;
+      drag.suppressClick = false;
       Object.assign(drag, { pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, startTime: performance.now(), active: false });
     });
 
@@ -1187,7 +1188,7 @@
       drag.active = false;
       if (!wasActive) return;
 
-      drag.lastEnd = performance.now();
+      drag.suppressClick = true;
       swipeZone.classList.remove('dragging');
       track.style.transition = '';
 
@@ -1198,6 +1199,12 @@
     }
     swipeZone.addEventListener('pointerup', e => endDrag(e, false));
     swipeZone.addEventListener('pointercancel', e => endDrag(e, true));
+    swipeZone.addEventListener('click', e => {
+      if (!drag.suppressClick) return;
+      e.preventDefault();
+      e.stopPropagation();
+      drag.suppressClick = false;
+    }, true);
 
     /* ---------- başlatma ---------- */
     MENU.forEach((cat, i) => {
