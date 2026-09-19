@@ -864,21 +864,6 @@
         ]
       },
       {
-        name: "Tatlılar",
-        tagline: "Tatlı bir mola.",
-        items: [
-          { n: "Brownie", p: "280₺" },
-          { n: "Cheesecake", p: "280₺" },
-          { n: "San Sebastian", p: "300₺" },
-          { n: "Coco Jambo", p: "260₺" },
-          { n: "Tiramisu", p: "280₺" },
-          { n: "Mozaik Pasta", p: "240₺" },
-          { n: "Sufle (Beyaz Çikolata, Tahin, Çikolata)", p: "320₺" },
-          { n: "Magnolia", p: "240₺" },
-          { n: "Medovik", p: "260₺" }
-        ]
-      },
-      {
         name: "Smoothies",
         tagline: "Meyvelerin en canlı hali.",
         items: [
@@ -896,7 +881,22 @@
           { n: "Yes Peaches", d: "Şeftali, melisa çayı, tarçın çubuğu, lime, şeker kamışı, gül", p: "270₺" },
           { n: "Oh My Lime", d: "Nane, lime, limon, şeker kamışı, kaya tuzu", p: "270₺" }
         ]
-      }
+      },
+      {
+        name: "Tatlılar",
+        tagline: "Tatlı bir mola.",
+        items: [
+          { n: "Brownie", p: "280₺" },
+          { n: "Cheesecake", p: "280₺" },
+          { n: "San Sebastian", p: "300₺" },
+          { n: "Coco Jambo", p: "260₺" },
+          { n: "Tiramisu", p: "280₺" },
+          { n: "Mozaik Pasta", p: "240₺" },
+          { n: "Sufle (Beyaz Çikolata, Tahin, Çikolata)", p: "320₺" },
+          { n: "Magnolia", p: "240₺" },
+          { n: "Medovik", p: "260₺" }
+        ]
+      },
     ];
 
     /* =====================================================================
@@ -998,7 +998,6 @@
       }
 
       $('.items').append(...cat.items.map(buildCard));
-      $('.list').addEventListener('scroll', () => updateHint(i), { passive: true });
       return panel;
     }
 
@@ -1010,13 +1009,7 @@
       });
     }
 
-    // "Aşağı kaydır" oku sadece liste devam ediyorsa görünür
-    function updateHint(i) {
-      const list = panels[i]?.querySelector('.list');
-      if (!list) return;
-      const hasMore = list.scrollHeight - list.clientHeight - list.scrollTop > 24;
-      panels[i].querySelector('.scroll-hint').classList.toggle('show', hasMore);
-    }
+    
 
     /* ---------- gezinme ---------- */
     function centerTab(tab, smooth) {
@@ -1044,7 +1037,6 @@
       loadPanel(i - 1);
       loadPanel(i);
       loadPanel(i + 1);
-      updateHint(i);
     }
 
     /* ---------- ürün detayı (modal) ---------- */
@@ -1227,10 +1219,9 @@
       splash.inert = true;
       app.classList.add('visible');
       centerTab(tabs[current], false);
-      updateHint(current);
     });
 
-    window.addEventListener('resize', () => updateHint(current));
+
 
     document.addEventListener('keydown', e => {
       if (!app.classList.contains('visible') || modal.open) return;
